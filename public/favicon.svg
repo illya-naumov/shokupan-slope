@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Soft Background/Crust -->
+  <path d="M15,45 Q15,10 50,10 Q85,10 85,45 L85,85 Q85,95 75,95 L25,95 Q15,95 15,85 Z" 
+        fill="#FAFAF9" stroke="#D4A373" stroke-width="6" stroke-linejoin="round"/>
+  
+  <!-- Cloud/Fluff Accents -->
+  <path d="M30,55 Q50,70 70,55" stroke="#E6CCB2" stroke-width="4" stroke-linecap="round" />
+  <path d="M40,35 Q50,45 60,35" stroke="#E6CCB2" stroke-width="4" stroke-linecap="round" />
+
+</svg>

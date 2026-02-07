@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order | Shokupan Slope</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google Fonts: Playfair Display & Manrope -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Manrope:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script type="module" src="/src/main.js"></script>
+</head>
+
+<body>
+    <main class="page-container">
+        <section class="content-section">
+
+            <!-- Locked State -->
+            <div id="order-locked" class="locked-container glass-panel">
+                <h1>Member Access</h1>
+                <p>Welcome back! Please enter your password to access the order form.</p>
+                <form id="password-form" class="password-form">
+                    <input type="password" id="password-input" placeholder="Enter Password" required>
+                    <button type="submit">Unlock</button>
+                    <p id="password-error" class="error-msg hidden">Incorrect password.</p>
+                </form>
+            </div>
+
+            <!-- Unlocked State (Hidden by default) -->
+            <div id="order-unlocked" class="hidden">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1>Order</h1>
+                    <p>Select your loaves below. Payment is cash or Venmo on delivery.</p>
+                </div>
+
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="/classic-shokupan.png" alt="Classic Shokupan Loaf" class="product-image">
+                        <h2>Classic Shokupan</h2>
+                        <p class="price">$14.00</p>
+                        <p>The original fluffy white loaf.</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="badge">Flavor of the Week</div>
+                        <img src="/matcha-shokupan.png" alt="Matcha Swirl Shokupan" class="product-image">
+                        <h2>Matcha Swirl</h2>
+                        <p class="price">$18.00</p>
+                        <p>Infused with premium Uji Matcha. (Rotates Weekly)</p>
+                    </div>
+                </div>
+
+
+                <form id="order-form" class="order-form glass-panel">
+                    <h3>Your Details</h3>
+                    <!-- Honeypot for spam bots -->
+                    <input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
+                    <div class="form-group">
+                        <label for="order-name">Name</label>
+                        <input type="text" id="order-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-email">Email</label>
+                        <input type="email" id="order-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-phone">Phone Number</label>
+                        <input type="tel" id="order-phone" name="phone" required placeholder="(555) 123-4567">
+                    </div>
+
+
+                    <h3>Your Order</h3>
+                    <div class="form-group">
+                        <label for="order-classic">Classic Loaves ($14)</label>
+                        <input type="number" id="order-classic" name="classic" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="order-matcha">Matcha Loaves ($18) - <em>Flavor of the Week</em></label>
+                        <input type="number" id="order-matcha" name="matcha" min="0" value="0">
+                    </div>
+
+                    <h3>Fulfillment</h3>
+                    <div class="form-group">
+                        <label for="order-fulfillment">Pickup or Delivery?</label>
+                        <select id="order-fulfillment" name="fulfillment" required>
+                            <option value="pickup_tue">Pickup: Tuesday (9am - 2pm)</option>
+                            <option value="pickup_sun">Pickup: Sunday (9am - 2pm)</option>
+                            <option value="delivery_sat">Delivery: Saturday (All Day)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-notes">Address / Notes</label>
+                        <textarea id="order-notes" name="notes"
+                            placeholder="Delivery Address or Pickup Time Preference"></textarea>
+                    </div>
+
+                    <div class="payment-info">
+                        <p><strong>Payment:</strong> Cash on Delivery / Pickup Only.</p>
+                    </div>
+
+                    <button type="submit" id="order-submit-btn">Place Order</button>
+                    <p id="order-message" class="message hidden"></p>
+                </form>
+
+            </div>
+
+
+        </section>
+    </main>
+</body>
+
+</html>
