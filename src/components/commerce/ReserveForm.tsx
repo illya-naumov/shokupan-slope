@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { clsx } from "clsx";
-import { Calendar, ShoppingBag, Truck, ChevronRight, Minus, Plus, User, Mail, Phone, CreditCard, MessageSquare } from "lucide-react";
+import { Calendar, ShoppingBag, Truck, ChevronRight, ChevronDown, Minus, Plus, User, Mail, Phone, CreditCard, MessageSquare } from "lucide-react";
 
 type Fulfillment = "pickup" | "delivery";
 
@@ -277,25 +277,21 @@ export const ReserveForm = () => {
                         <div className="space-y-2">
                             <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Select Date</label>
                             <div className="space-y-2">
-                                {getDates(fulfillment).map((date) => (
-                                    <button
-                                        key={date.id}
-                                        onClick={() => setSelectedDate(date.id)}
-                                        className={clsx(
-                                            "w-full p-4 rounded-xl border flex items-center justify-between transition-all",
-                                            selectedDate === date.id ? "border-matcha bg-green-50 shadow-sm" : "border-gray-100 hover:border-gray-200"
-                                        )}
+                                <div className="relative">
+                                    <select
+                                        value={selectedDate}
+                                        onChange={(e) => setSelectedDate(e.target.value)}
+                                        className="w-full p-4 pr-12 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none appearance-none bg-white font-bold text-gray-700 transition-shadow"
                                     >
-                                        <div className="flex items-center gap-3">
-                                            <Calendar className={selectedDate === date.id ? "text-matcha" : "text-gray-300"} size={20} />
-                                            <div className="text-left">
-                                                <div className={clsx("font-bold", selectedDate === date.id ? "text-matcha" : "text-gray-600")}>{date.label}</div>
-                                                <div className="text-xs text-gray-400">{date.time}</div>
-                                            </div>
-                                        </div>
-                                        {selectedDate === date.id && <div className="text-matcha">✓</div>}
-                                    </button>
-                                ))}
+                                        <option value="" disabled>Select a {fulfillment === "pickup" ? "Pickup" : "Delivery"} Date</option>
+                                        {getDates(fulfillment).map((date) => (
+                                            <option key={date.id} value={date.id}>
+                                                {date.label} {date.time ? `- ${date.time}` : ""}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-matcha pointer-events-none" size={20} />
+                                </div>
                             </div>
                         </div>
 

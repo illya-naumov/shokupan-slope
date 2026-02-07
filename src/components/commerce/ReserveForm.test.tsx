@@ -8,6 +8,7 @@ vi.mock('lucide-react', () => ({
     ShoppingBag: () => <span data-testid="icon-shopping-bag" />,
     Truck: () => <span data-testid="icon-truck" />,
     ChevronRight: () => <span data-testid="icon-chevron-right" />,
+    ChevronDown: () => <span data-testid="icon-chevron-down" />,
     Minus: () => <span data-testid="icon-minus" />,
     Plus: () => <span data-testid="icon-plus" />,
     User: () => <span data-testid="icon-user" />,
@@ -68,9 +69,10 @@ describe('ReserveForm', () => {
         // Check Delivery text
         expect(screen.getByText('+$6.00')).toBeInTheDocument()
 
-        // Verify at least one date option exists (Dynamic check)
-        const dateOptions = document.querySelectorAll('.space-y-2 button');
-        expect(dateOptions.length).toBeGreaterThan(0);
+        // Verify select dropdown exists
+        const select = document.querySelector('select');
+        expect(select).toBeInTheDocument();
+        expect(select?.options.length).toBeGreaterThan(1);
     })
 
     it('shows free delivery when 3+ items are selected', async () => {
