@@ -1,0 +1,91 @@
+[debug] [2026-02-07T10:05:27.772Z] ----------------------------------------------------------------------
+[debug] [2026-02-07T10:05:27.774Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\illya\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting:github
+[debug] [2026-02-07T10:05:27.774Z] CLI Version:   15.5.1
+[debug] [2026-02-07T10:05:27.774Z] Platform:      win32
+[debug] [2026-02-07T10:05:27.774Z] Node Version:  v24.13.0
+[debug] [2026-02-07T10:05:27.774Z] Time:          Sat Feb 07 2026 05:05:27 GMT-0500 (Eastern Standard Time)
+[debug] [2026-02-07T10:05:27.774Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\illya\OneDrive\Documents\ai\shokupanslope
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-02-07T10:05:31.679Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-02-07T10:05:31.680Z] > authorizing via signed-in user (illya.naumov@gmail.com)
+[debug] [2026-02-07T10:05:31.680Z] Checked if tokens are valid: false, expires at: 1770456046310
+[debug] [2026-02-07T10:05:31.680Z] Checked if tokens are valid: false, expires at: 1770456046310
+[debug] [2026-02-07T10:05:31.680Z] > refreshing access token with scopes: []
+[debug] [2026-02-07T10:05:31.681Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-02-07T10:05:31.681Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-02-07T10:05:31.837Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-02-07T10:05:31.837Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-02-07T10:05:31.841Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/staging [none]
+[debug] [2026-02-07T10:05:32.147Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/staging 403
+[debug] [2026-02-07T10:05:32.147Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/staging {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-02-07T10:05:32.147Z] Request to https://firebase.googleapis.com/v1beta1/projects/staging had HTTP Error: 403, The caller does not have permission
+[debug] [2026-02-07T10:05:32.236Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/staging had HTTP Error: 403, The caller does not have permission
+    at responseToError (C:\Users\illya\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:53:12)
+    at RetryOperation._fn (C:\Users\illya\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:330:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+[error] 
+[error] Error: Failed to get Firebase project staging. Please make sure the project exists and your account has permission to access it.
+[debug] [2026-02-07T10:05:38.334Z] ----------------------------------------------------------------------
+[debug] [2026-02-07T10:05:38.335Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\illya\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting:github
+[debug] [2026-02-07T10:05:38.336Z] CLI Version:   15.5.1
+[debug] [2026-02-07T10:05:38.336Z] Platform:      win32
+[debug] [2026-02-07T10:05:38.336Z] Node Version:  v24.13.0
+[debug] [2026-02-07T10:05:38.336Z] Time:          Sat Feb 07 2026 05:05:38 GMT-0500 (Eastern Standard Time)
+[debug] [2026-02-07T10:05:38.336Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\illya\OneDrive\Documents\ai\shokupanslope
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-02-07T10:05:48.931Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-02-07T10:05:48.931Z] > authorizing via signed-in user (illya.naumov@gmail.com)
+[debug] [2026-02-07T10:05:48.932Z] Checked if tokens are valid: true, expires at: 1770462329837
+[debug] [2026-02-07T10:05:48.932Z] Checked if tokens are valid: true, expires at: 1770462329837
+[debug] [2026-02-07T10:05:48.932Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/staging [none]
+[debug] [2026-02-07T10:05:49.244Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/staging 403
+[debug] [2026-02-07T10:05:49.244Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/staging {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-02-07T10:05:49.245Z] Request to https://firebase.googleapis.com/v1beta1/projects/staging had HTTP Error: 403, The caller does not have permission
+[debug] [2026-02-07T10:05:49.338Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/staging had HTTP Error: 403, The caller does not have permission
+    at responseToError (C:\Users\illya\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:53:12)
+    at RetryOperation._fn (C:\Users\illya\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:330:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+[error] 
+[error] Error: Failed to get Firebase project staging. Please make sure the project exists and your account has permission to access it.

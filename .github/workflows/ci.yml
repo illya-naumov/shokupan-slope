@@ -28,12 +28,11 @@ jobs:
     - name: Build Project
       run: npm run build
 
-    # Optional: Deploy to Firebase (if token is provided)
-    # - name: Deploy to Firebase
-    #   if: success() && github.ref == 'refs/heads/main'
-    #   uses: FirebaseExtended/action-hosting-deploy@v0
-    #   with:
-    #     repoToken: '${{ secrets.GITHUB_TOKEN }}'
-    #     firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-    #     channelId: live
-    #     projectId: shokupan-phoenix
+    - name: Deploy to Firebase
+      if: success() && github.ref == 'refs/heads/main'
+      uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+        channelId: live
+        projectId: shokupan-phoenix
