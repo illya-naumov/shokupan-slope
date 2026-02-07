@@ -52,16 +52,35 @@ export const ReserveForm = () => {
     const total = subtotal + deliveryFee;
 
     const getDates = (type: Fulfillment) => {
-        if (type === "pickup") {
-            return [
-                { id: "tues", label: "Tuesday, Feb 13", time: "9am - 2pm" },
-                { id: "sun", label: "Sunday, Feb 18", time: "9am - 2pm" },
-            ];
-        } else {
-            return [
-                { id: "sat", label: "Saturday, Feb 17", time: "Delivery Window: 10am - 4pm" },
-            ];
+        const dates = [];
+        const today = new Date();
+        const fourWeeksFromNow = new Date();
+        fourWeeksFromNow.setDate(today.getDate() + 28);
+
+        // Pickup: Tuesday (2) and Sunday (0)
+        // Delivery: Saturday (6)
+        const targetDays = type === "pickup" ? [2, 0] : [6];
+
+        for (let d = new Date(today); d <= fourWeeksFromNow; d.setDate(d.getDate() + 1)) {
+            if (targetDays.includes(d.getDay())) {
+                const dayName = d.toLocaleDateString('en-US', { weekday: 'long' });
+                const monthDay = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+                // Format: "Tuesday, Feb 13"
+                const label = `${dayName}, ${monthDay}`;
+                const id = d.toISOString().split('T')[0]; // YYYY-MM-DD
+
+                let time = "";
+                if (type === "pickup") {
+                    time = d.getDay() === 2 ? "9am - 2pm" : (d.getDay() === 0 ? "9am - 2pm" : "");
+                } else {
+                    time = "Delivery Window: 10am - 4pm";
+                }
+
+                dates.push({ id, label, time });
+            }
         }
+        return dates;
     };
 
     const handleSubmit = async () => {
@@ -229,7 +248,7 @@ export const ReserveForm = () => {
                             >
                                 <ShoppingBag size={24} />
                                 <span className="font-bold">Pickup</span>
-                                <span className="text-xs">Free</span>
+                                <span className="text-xs text-center">739 Sixth Ave<br />(Free)</span>
                             </button>
                             <button
                                 onClick={() => { setFulfillment("delivery"); setSelectedDate(""); }}

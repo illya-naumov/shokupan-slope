@@ -67,6 +67,10 @@ describe('ReserveForm', () => {
 
         // Check Delivery text
         expect(screen.getByText('+$6.00')).toBeInTheDocument()
+
+        // Verify at least one date option exists (Dynamic check)
+        const dateOptions = document.querySelectorAll('.space-y-2 button');
+        expect(dateOptions.length).toBeGreaterThan(0);
     })
 
     it('shows free delivery when 3+ items are selected', async () => {
