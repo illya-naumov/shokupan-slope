@@ -90,4 +90,12 @@ describe('ReserveForm', () => {
         // Check Delivery text
         expect(screen.getByText('Free (3+ items)')).toBeInTheDocument()
     })
+
+    it('has responsive layout classes for mobile compatibility', () => {
+        render(<ReserveForm />)
+        const classicText = screen.getByText('Classic Shokupan')
+        // Find the main row container (ancestor with rounding and padding)
+        const row = classicText.closest('.rounded-2xl')
+        expect(row).toHaveClass('flex-col', 'sm:flex-row')
+    })
 })
