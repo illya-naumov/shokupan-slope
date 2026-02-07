@@ -35,12 +35,13 @@ export const TextureHero = () => {
                     Japanese milk bread so pillowy, you can hear the tear. Baked fresh every morning using premium Hokkaido flour.
                 </p>
 
-                <a
+                <Link
                     href="/reserve"
+                    prefetch={false}
                     className="inline-block bg-matcha text-flour px-8 py-4 rounded-full font-serif text-lg hover:bg-matcha-light transition-all shadow-lg hover:scale-105 active:scale-95"
                 >
                     Reserve Your Loaf
-                </a>
+                </Link>
             </motion.div>
 
             {/* Scroll Indicator */}
