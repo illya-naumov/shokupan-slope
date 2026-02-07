@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-flour: #F8F5F2;
+  --color-flour-50: #FCFAF8;
+
+  --color-crust: #D69E2E;
+  --color-crust-dark: #B7791F;
+
+  --color-matcha: #4B5320;
+  --color-matcha-light: #7A8542;
+
+  --font-serif: var(--font-noto-serif-jp), serif;
+  --font-sans: var(--font-inter), sans-serif;
+}
+
+/* Reset to brand background */
+body {
+  background-color: var(--color-flour);
+  color: var(--color-matcha);
+  font-family: var(--font-sans);
+}
