@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { clsx } from "clsx";
-import { Calendar, ShoppingBag, Truck, ChevronRight, ChevronDown, Minus, Plus, User, Mail, Phone, CreditCard, MessageSquare } from "lucide-react";
+import { ShoppingBag, Truck, ChevronRight, ChevronDown, Minus, Plus, User, Mail, Phone, MessageSquare } from "lucide-react";
 
 type Fulfillment = "pickup" | "delivery";
 
@@ -30,7 +29,7 @@ export const ReserveForm = () => {
     const [fulfillment, setFulfillment] = useState<Fulfillment>("pickup");
     const [selectedDate, setSelectedDate] = useState<string>("");
 
-    // Contact State - Venmo Removed
+    // Contact State
     const [contact, setContact] = useState({
         name: "",
         email: "",
@@ -155,291 +154,261 @@ export const ReserveForm = () => {
                 ))}
             </div>
 
-            <AnimatePresence mode="wait">
-                {/* Step 1: Build Order */}
-                {step === 1 && (
-                    <motion.div
-                        key="step1"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        className="space-y-6"
+            {/* Step 1: Build Order */}
+            {step === 1 && (
+                <div className="space-y-6">
+                    <h2 className="font-serif text-3xl text-matcha">Build Your Order</h2>
+                    <div className="space-y-4">
+                        {/* Classic Row */}
+                        <div className={clsx("p-4 rounded-2xl border-2 transition-all flex flex-col sm:flex-row sm:items-center gap-4", cart.Classic > 0 ? "border-matcha bg-matcha/5" : "border-gray-100")}>
+                            <div className="flex items-center gap-4 w-full sm:w-auto flex-1">
+                                <img src="/classic-shokupan.png" alt="Classic Loaf" className="w-24 h-24 object-cover rounded-xl" />
+                                <div className="flex-1">
+                                    <span className="block font-serif text-xl mb-1 text-matcha">Classic Shokupan</span>
+                                    <span className="block text-sm text-gray-500 mb-2">${PRICES.Classic}.00 / loaf</span>
+                                    <p className="text-xs text-gray-400">Cloud-like Hokkaido milk bread.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+                                <button onClick={() => updateCart("Classic", -1)} className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:bg-gray-50 disabled:opacity-50" disabled={cart.Classic === 0}>
+                                    <Minus size={16} />
+                                </button>
+                                <span className="w-6 text-center font-mono text-lg font-bold">{cart.Classic}</span>
+                                <button onClick={() => updateCart("Classic", 1)} className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:bg-gray-50">
+                                    <Plus size={16} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Specialty Row */}
+                        <div className={clsx("p-4 rounded-2xl border-2 transition-all flex flex-col sm:flex-row sm:items-center gap-4", cart.Specialty > 0 ? "border-matcha bg-matcha/5" : "border-gray-100")}>
+                            <div className="flex items-center gap-4 w-full sm:w-auto flex-1">
+                                <img src="/matcha-shokupan.png" alt="Specialty Loaf" className="w-24 h-24 object-cover rounded-xl" />
+                                <div className="flex-1">
+                                    <span className="block font-serif text-xl mb-1 text-matcha">Weekly Specialty</span>
+                                    <span className="block text-sm text-gray-500 mb-2">${PRICES.Specialty}.00 / loaf</span>
+                                    <p className="text-xs text-gray-400 max-w-[200px]">
+                                        Flavor rotates weekly. <br />
+                                        <span className="font-bold text-matcha/80">Current: Kyoto Matcha Swirl</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+                                <button onClick={() => updateCart("Specialty", -1)} className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:bg-gray-50 disabled:opacity-50" disabled={cart.Specialty === 0}>
+                                    <Minus size={16} />
+                                </button>
+                                <span className="w-6 text-center font-mono text-lg font-bold">{cart.Specialty}</span>
+                                <button onClick={() => updateCart("Specialty", 1)} className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:bg-gray-50">
+                                    <Plus size={16} />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 bg-flour rounded-xl">
+                        <span className="font-bold text-matcha">Subtotal</span>
+                        <span className="font-mono text-xl text-matcha">${subtotal}.00</span>
+                    </div>
+
+                    <button
+                        onClick={() => setStep(2)}
+                        disabled={breadCount === 0}
+                        className="w-full bg-matcha text-flour py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-matcha-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        <h2 className="font-serif text-3xl text-matcha">Build Your Order</h2>
-                        <div className="space-y-4">
-                            {/* Classic Row */}
-                            <div className={clsx("p-4 rounded-2xl border-2 transition-all flex flex-col sm:flex-row sm:items-center gap-4", cart.Classic > 0 ? "border-matcha bg-matcha/5" : "border-gray-100")}>
-                                <div className="flex items-center gap-4 w-full sm:w-auto flex-1">
-                                    <img src="/classic-shokupan.png" alt="Classic Loaf" className="w-24 h-24 object-cover rounded-xl" />
-                                    <div className="flex-1">
-                                        <span className="block font-serif text-xl mb-1 text-matcha">Classic Shokupan</span>
-                                        <span className="block text-sm text-gray-500 mb-2">${PRICES.Classic}.00 / loaf</span>
-                                        <p className="text-xs text-gray-400">Cloud-like Hokkaido milk bread.</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-                                    <button onClick={() => updateCart("Classic", -1)} className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:bg-gray-50 disabled:opacity-50" disabled={cart.Classic === 0}>
-                                        <Minus size={16} />
-                                    </button>
-                                    <span className="w-6 text-center font-mono text-lg font-bold">{cart.Classic}</span>
-                                    <button onClick={() => updateCart("Classic", 1)} className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:bg-gray-50">
-                                        <Plus size={16} />
-                                    </button>
-                                </div>
-                            </div>
+                        Next Step <ChevronRight size={18} />
+                    </button>
+                </div>
+            )}
 
-                            {/* Specialty Row */}
-                            <div className={clsx("p-4 rounded-2xl border-2 transition-all flex flex-col sm:flex-row sm:items-center gap-4", cart.Specialty > 0 ? "border-matcha bg-matcha/5" : "border-gray-100")}>
-                                <div className="flex items-center gap-4 w-full sm:w-auto flex-1">
-                                    <img src="/matcha-shokupan.png" alt="Specialty Loaf" className="w-24 h-24 object-cover rounded-xl" />
-                                    <div className="flex-1">
-                                        <span className="block font-serif text-xl mb-1 text-matcha">Weekly Specialty</span>
-                                        <span className="block text-sm text-gray-500 mb-2">${PRICES.Specialty}.00 / loaf</span>
-                                        <p className="text-xs text-gray-400 max-w-[200px]">
-                                            Flavor rotates weekly. <br />
-                                            <span className="font-bold text-matcha/80">Current: Kyoto Matcha Swirl</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-                                    <button onClick={() => updateCart("Specialty", -1)} className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:bg-gray-50 disabled:opacity-50" disabled={cart.Specialty === 0}>
-                                        <Minus size={16} />
-                                    </button>
-                                    <span className="w-6 text-center font-mono text-lg font-bold">{cart.Specialty}</span>
-                                    <button onClick={() => updateCart("Specialty", 1)} className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:bg-gray-50">
-                                        <Plus size={16} />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center justify-between p-4 bg-flour rounded-xl">
-                            <span className="font-bold text-matcha">Subtotal</span>
-                            <span className="font-mono text-xl text-matcha">${subtotal}.00</span>
-                        </div>
-
+            {/* Step 2: Fulfillment */}
+            {step === 2 && (
+                <div className="space-y-6">
+                    <h2 className="font-serif text-3xl text-matcha">How to get it</h2>
+                    <div className="grid grid-cols-2 gap-4">
                         <button
-                            onClick={() => setStep(2)}
-                            disabled={breadCount === 0}
-                            className="w-full bg-matcha text-flour py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-matcha-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            onClick={() => { setFulfillment("pickup"); setSelectedDate(""); }}
+                            className={clsx(
+                                "p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all",
+                                fulfillment === "pickup" ? "border-matcha bg-matcha/5 text-matcha" : "border-gray-100 text-gray-400"
+                            )}
+                        >
+                            <ShoppingBag size={24} />
+                            <span className="font-bold">Pickup</span>
+                            <span className="text-xs text-center">739 Sixth Ave<br />(Free)</span>
+                        </button>
+                        <button
+                            onClick={() => { setFulfillment("delivery"); setSelectedDate(""); }}
+                            className={clsx(
+                                "p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all",
+                                fulfillment === "delivery" ? "border-matcha bg-matcha/5 text-matcha" : "border-gray-100 text-gray-400"
+                            )}
+                        >
+                            <Truck size={24} />
+                            <span className="font-bold">Delivery</span>
+                            <span className="text-xs">{isFreeDelivery ? "Free (3+ items)" : "+$6.00"}</span>
+                        </button>
+                    </div>
+
+                    {fulfillment === "delivery" && (
+                        <div className="overflow-hidden rounded-xl border border-gray-100">
+                            <img src="/delivery-map.png" alt="Delivery Zone Map" className="w-full h-48 object-cover" />
+                            <p className="text-xs text-center text-gray-400 p-2 bg-gray-50">We deliver to Park Slope, Gowanus, and Windsor Terrace.</p>
+                        </div>
+                    )}
+
+                    <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Select Date</label>
+                        <div className="space-y-2">
+                            <div className="relative">
+                                <select
+                                    value={selectedDate}
+                                    onChange={(e) => setSelectedDate(e.target.value)}
+                                    className="w-full p-4 pr-12 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none appearance-none bg-white font-bold text-gray-700 transition-shadow"
+                                >
+                                    <option value="" disabled>Select a {fulfillment === "pickup" ? "Pickup" : "Delivery"} Date</option>
+                                    {getDates(fulfillment).map((date) => (
+                                        <option key={date.id} value={date.id}>
+                                            {date.label} {date.time ? `- ${date.time}` : ""}
+                                        </option>
+                                    ))}
+                                </select>
+                                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-matcha pointer-events-none" size={20} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                        <button onClick={() => setStep(1)} className="flex-1 text-gray-400 font-bold py-4 hover:text-gray-600">Back</button>
+                        <button
+                            disabled={!selectedDate}
+                            onClick={() => setStep(3)}
+                            className="flex-[2] bg-matcha text-flour py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-matcha-light transition-colors disabled:opacity-50"
                         >
                             Next Step <ChevronRight size={18} />
                         </button>
-                    </motion.div>
-                )}
+                    </div>
+                </div>
+            )}
 
-                {/* Step 2: Fulfillment */}
-                {step === 2 && (
-                    <motion.div
-                        key="step2"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        className="space-y-6"
-                    >
-                        <h2 className="font-serif text-3xl text-matcha">How to get it</h2>
-                        <div className="grid grid-cols-2 gap-4">
-                            <button
-                                onClick={() => { setFulfillment("pickup"); setSelectedDate(""); }}
-                                className={clsx(
-                                    "p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all",
-                                    fulfillment === "pickup" ? "border-matcha bg-matcha/5 text-matcha" : "border-gray-100 text-gray-400"
-                                )}
-                            >
-                                <ShoppingBag size={24} />
-                                <span className="font-bold">Pickup</span>
-                                <span className="text-xs text-center">739 Sixth Ave<br />(Free)</span>
-                            </button>
-                            <button
-                                onClick={() => { setFulfillment("delivery"); setSelectedDate(""); }}
-                                className={clsx(
-                                    "p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all",
-                                    fulfillment === "delivery" ? "border-matcha bg-matcha/5 text-matcha" : "border-gray-100 text-gray-400"
-                                )}
-                            >
-                                <Truck size={24} />
-                                <span className="font-bold">Delivery</span>
-                                <span className="text-xs">{isFreeDelivery ? "Free (3+ items)" : "+$6.00"}</span>
-                            </button>
+            {/* Step 3: Your Details */}
+            {step === 3 && (
+                <div className="space-y-6">
+                    <h2 className="font-serif text-3xl text-matcha">Your Details</h2>
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold text-gray-600 flex items-center gap-2">
+                                <User size={16} /> Name
+                            </label>
+                            <input
+                                type="text"
+                                value={contact.name}
+                                onChange={(e) => setContact({ ...contact, name: e.target.value })}
+                                placeholder="Jane Doe"
+                                className="w-full p-4 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none transition-all"
+                            />
                         </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold text-gray-600 flex items-center gap-2">
+                                <Mail size={16} /> Email
+                            </label>
+                            <input
+                                type="email"
+                                value={contact.email}
+                                onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                                placeholder="jane@example.com"
+                                className="w-full p-4 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none transition-all"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold text-gray-600 flex items-center gap-2">
+                                <Phone size={16} /> Phone
+                            </label>
+                            <input
+                                type="tel"
+                                value={contact.phone}
+                                onChange={(e) => setContact({ ...contact, phone: e.target.value })}
+                                placeholder="(555) 123-4567"
+                                className="w-full p-4 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none transition-all"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold text-gray-600 flex items-center gap-2">
+                                <MessageSquare size={16} /> Notes
+                            </label>
+                            <textarea
+                                value={contact.notes}
+                                onChange={(e) => setContact({ ...contact, notes: e.target.value })}
+                                placeholder="Allergies, gate codes, or special requests..."
+                                className="w-full p-4 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none transition-all min-h-[100px]"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                        <button onClick={() => setStep(2)} className="flex-1 text-gray-400 font-bold py-4 hover:text-gray-600">Back</button>
+                        <button
+                            disabled={!contact.name || !contact.email || !contact.phone}
+                            onClick={() => setStep(4)}
+                            className="flex-[2] bg-matcha text-flour py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-matcha-light transition-colors disabled:opacity-50"
+                        >
+                            Review <ChevronRight size={18} />
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Step 4: Summary & Submit (Was Step 3) */}
+            {step === 4 && (
+                <div className="space-y-6 text-center">
+                    <h2 className="font-serif text-3xl text-matcha">Order Summary</h2>
+                    <div className="bg-flour p-6 rounded-2xl space-y-4">
+                        {cart.Classic > 0 && (
+                            <div className="flex justify-between text-lg">
+                                <span className="text-gray-600">{cart.Classic}x Classic Loaf</span>
+                                <span className="font-bold">${PRICES.Classic * cart.Classic}.00</span>
+                            </div>
+                        )}
+                        {cart.Specialty > 0 && (
+                            <div className="flex justify-between text-lg">
+                                <span className="text-gray-600">{cart.Specialty}x Specialty Loaf</span>
+                                <span className="font-bold">${PRICES.Specialty * cart.Specialty}.00</span>
+                            </div>
+                        )}
 
                         {fulfillment === "delivery" && (
-                            <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                className="overflow-hidden rounded-xl border border-gray-100"
-                            >
-                                <img src="/delivery-map.png" alt="Delivery Zone Map" className="w-full h-48 object-cover" />
-                                <p className="text-xs text-center text-gray-400 p-2 bg-gray-50">We deliver to Park Slope, Gowanus, and Windsor Terrace.</p>
-                            </motion.div>
-                        )}
-
-                        <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Select Date</label>
-                            <div className="space-y-2">
-                                <div className="relative">
-                                    <select
-                                        value={selectedDate}
-                                        onChange={(e) => setSelectedDate(e.target.value)}
-                                        className="w-full p-4 pr-12 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none appearance-none bg-white font-bold text-gray-700 transition-shadow"
-                                    >
-                                        <option value="" disabled>Select a {fulfillment === "pickup" ? "Pickup" : "Delivery"} Date</option>
-                                        {getDates(fulfillment).map((date) => (
-                                            <option key={date.id} value={date.id}>
-                                                {date.label} {date.time ? `- ${date.time}` : ""}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-matcha pointer-events-none" size={20} />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-4">
-                            <button onClick={() => setStep(1)} className="flex-1 text-gray-400 font-bold py-4 hover:text-gray-600">Back</button>
-                            <button
-                                disabled={!selectedDate}
-                                onClick={() => setStep(3)}
-                                className="flex-[2] bg-matcha text-flour py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-matcha-light transition-colors disabled:opacity-50"
-                            >
-                                Next Step <ChevronRight size={18} />
-                            </button>
-                        </div>
-                    </motion.div>
-                )}
-
-                {/* Step 3: Your Details */}
-                {step === 3 && (
-                    <motion.div
-                        key="step3"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        className="space-y-6"
-                    >
-                        <h2 className="font-serif text-3xl text-matcha">Your Details</h2>
-                        <div className="space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-gray-600 flex items-center gap-2">
-                                    <User size={16} /> Name
-                                </label>
-                                <input
-                                    type="text"
-                                    value={contact.name}
-                                    onChange={(e) => setContact({ ...contact, name: e.target.value })}
-                                    placeholder="Jane Doe"
-                                    className="w-full p-4 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none transition-all"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-gray-600 flex items-center gap-2">
-                                    <Mail size={16} /> Email
-                                </label>
-                                <input
-                                    type="email"
-                                    value={contact.email}
-                                    onChange={(e) => setContact({ ...contact, email: e.target.value })}
-                                    placeholder="jane@example.com"
-                                    className="w-full p-4 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none transition-all"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-gray-600 flex items-center gap-2">
-                                    <Phone size={16} /> Phone
-                                </label>
-                                <input
-                                    type="tel"
-                                    value={contact.phone}
-                                    onChange={(e) => setContact({ ...contact, phone: e.target.value })}
-                                    placeholder="(555) 123-4567"
-                                    className="w-full p-4 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none transition-all"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-gray-600 flex items-center gap-2">
-                                    <MessageSquare size={16} /> Notes
-                                </label>
-                                <textarea
-                                    value={contact.notes}
-                                    onChange={(e) => setContact({ ...contact, notes: e.target.value })}
-                                    placeholder="Allergies, gate codes, or special requests..."
-                                    className="w-full p-4 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none transition-all min-h-[100px]"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="flex gap-4">
-                            <button onClick={() => setStep(2)} className="flex-1 text-gray-400 font-bold py-4 hover:text-gray-600">Back</button>
-                            <button
-                                disabled={!contact.name || !contact.email || !contact.phone}
-                                onClick={() => setStep(4)}
-                                className="flex-[2] bg-matcha text-flour py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-matcha-light transition-colors disabled:opacity-50"
-                            >
-                                Review <ChevronRight size={18} />
-                            </button>
-                        </div>
-                    </motion.div>
-                )}
-
-                {/* Step 4: Summary & Submit (Was Step 3) */}
-                {step === 4 && (
-                    <motion.div
-                        key="step4"
-                        initial={{ opacity: 0, x: 0 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        className="space-y-6 text-center"
-                    >
-                        <h2 className="font-serif text-3xl text-matcha">Order Summary</h2>
-                        <div className="bg-flour p-6 rounded-2xl space-y-4">
-                            {cart.Classic > 0 && (
-                                <div className="flex justify-between text-lg">
-                                    <span className="text-gray-600">{cart.Classic}x Classic Loaf</span>
-                                    <span className="font-bold">${PRICES.Classic * cart.Classic}.00</span>
-                                </div>
-                            )}
-                            {cart.Specialty > 0 && (
-                                <div className="flex justify-between text-lg">
-                                    <span className="text-gray-600">{cart.Specialty}x Specialty Loaf</span>
-                                    <span className="font-bold">${PRICES.Specialty * cart.Specialty}.00</span>
-                                </div>
-                            )}
-
-                            {fulfillment === "delivery" && (
-                                <div className="flex justify-between text-sm text-gray-500">
-                                    <span>Local Delivery</span>
-                                    <span>{deliveryFee === 0 ? "Free" : "$6.00"}</span>
-                                </div>
-                            )}
-                            <div className="h-px bg-matcha/10 my-4" />
-                            <div className="flex justify-between text-xl font-serif text-matcha">
-                                <span>Total</span>
-                                <span>${total}.00</span>
-                            </div>
-                        </div>
-
-                        {/* Payment Disclaimer */}
-                        <div className="p-4 bg-yellow-50 border border-yellow-100 rounded-xl text-sm text-yellow-800">
-                            <strong>Payment:</strong> We accept <u>Cash</u> or <u>Venmo</u> upon {fulfillment}.
-                        </div>
-
-                        {submitStatus === "error" && (
-                            <div className="p-4 bg-red-50 text-red-600 rounded-xl text-sm">
-                                Something went wrong. Please try again or DM us on Instagram.
+                            <div className="flex justify-between text-sm text-gray-500">
+                                <span>Local Delivery</span>
+                                <span>{deliveryFee === 0 ? "Free" : "$6.00"}</span>
                             </div>
                         )}
+                        <div className="h-px bg-matcha/10 my-4" />
+                        <div className="flex justify-between text-xl font-serif text-matcha">
+                            <span>Total</span>
+                            <span>${total}.00</span>
+                        </div>
+                    </div>
 
-                        <button
-                            onClick={handleSubmit}
-                            disabled={isSubmitting}
-                            className="w-full bg-crust text-white py-4 rounded-xl font-bold shadow-lg hover:bg-crust-dark transition-all transform hover:scale-105 active:scale-95 disabled:opacity-70 disabled:scale-100"
-                        >
-                            {isSubmitting ? "Submitting..." : "Confirm Reservation"}
-                        </button>
-                        <button onClick={() => setStep(3)} className="text-gray-400 text-sm hover:underline">Change Details</button>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
+                    {/* Payment Disclaimer */}
+                    <div className="p-4 bg-yellow-50 border border-yellow-100 rounded-xl text-sm text-yellow-800">
+                        <strong>Payment:</strong> We accept <u>Cash</u> or <u>Venmo</u> upon {fulfillment}.
+                    </div>
+
+                    {submitStatus === "error" && (
+                        <div className="p-4 bg-red-50 text-red-600 rounded-xl text-sm">
+                            Something went wrong. Please try again or DM us on Instagram.
+                        </div>
+                    )}
+
+                    <button
+                        onClick={handleSubmit}
+                        disabled={isSubmitting}
+                        className="w-full bg-crust text-white py-4 rounded-xl font-bold shadow-lg hover:bg-crust-dark transition-all transform hover:scale-105 active:scale-95 disabled:opacity-70 disabled:scale-100"
+                    >
+                        {isSubmitting ? "Submitting..." : "Confirm Reservation"}
+                    </button>
+                    <button onClick={() => setStep(3)} className="text-gray-400 text-sm hover:underline">Change Details</button>
+                </div>
+            )}
+        </div >
     )
 }

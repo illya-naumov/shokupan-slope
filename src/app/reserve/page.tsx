@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { TextureHero } from "@/components/commerce/TextureHero";
 import { ReserveForm } from "@/components/commerce/ReserveForm";
 
@@ -17,7 +18,9 @@ export default function ReservePage() {
                 </p>
 
                 {/* Placeholder for future Waitlist Component */}
-                <ReserveForm />
+                <Suspense fallback={<div className="text-center text-matcha animate-pulse">Loading reservation form...</div>}>
+                    <ReserveForm />
+                </Suspense>
             </div>
         </main>
     );

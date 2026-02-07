@@ -61,10 +61,8 @@ describe('ReserveForm', () => {
         // Go to Step 2
         fireEvent.click(screen.getByText('Next Step'))
 
-        // Wait for animation/step change
-        await waitFor(() => {
-            expect(screen.getByText('How to get it')).toBeInTheDocument()
-        })
+        // Check for next step content immediately
+        expect(screen.getByText('How to get it')).toBeInTheDocument()
 
         // Check Delivery text
         expect(screen.getByText('+$6.00')).toBeInTheDocument()
@@ -88,10 +86,8 @@ describe('ReserveForm', () => {
         // Go to Step 2
         fireEvent.click(screen.getByText('Next Step'))
 
-        // Wait for animation/step change
-        await waitFor(() => {
-            expect(screen.getByText('How to get it')).toBeInTheDocument()
-        })
+        // Check for next step content immediately
+        expect(screen.getByText('How to get it')).toBeInTheDocument()
 
         // Check Delivery text
         expect(screen.getByText('Free (3+ items)')).toBeInTheDocument()
