@@ -149,14 +149,16 @@ export const ReserveForm = () => {
                         <h2 className="font-serif text-3xl text-matcha">Build Your Order</h2>
                         <div className="space-y-4">
                             {/* Classic Row */}
-                            <div className={clsx("p-4 rounded-2xl border-2 transition-all flex items-center gap-4", cart.Classic > 0 ? "border-matcha bg-matcha/5" : "border-gray-100")}>
-                                <img src="/classic-shokupan.png" alt="Classic Loaf" className="w-24 h-24 object-cover rounded-xl" />
-                                <div className="flex-1">
-                                    <span className="block font-serif text-xl mb-1 text-matcha">Classic Shokupan</span>
-                                    <span className="block text-sm text-gray-500 mb-2">${PRICES.Classic}.00 / loaf</span>
-                                    <p className="text-xs text-gray-400">Cloud-like Hokkaido milk bread.</p>
+                            <div className={clsx("p-4 rounded-2xl border-2 transition-all flex flex-col sm:flex-row sm:items-center gap-4", cart.Classic > 0 ? "border-matcha bg-matcha/5" : "border-gray-100")}>
+                                <div className="flex items-center gap-4 w-full sm:w-auto flex-1">
+                                    <img src="/classic-shokupan.png" alt="Classic Loaf" className="w-24 h-24 object-cover rounded-xl" />
+                                    <div className="flex-1">
+                                        <span className="block font-serif text-xl mb-1 text-matcha">Classic Shokupan</span>
+                                        <span className="block text-sm text-gray-500 mb-2">${PRICES.Classic}.00 / loaf</span>
+                                        <p className="text-xs text-gray-400">Cloud-like Hokkaido milk bread.</p>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
                                     <button onClick={() => updateCart("Classic", -1)} className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:bg-gray-50 disabled:opacity-50" disabled={cart.Classic === 0}>
                                         <Minus size={16} />
                                     </button>
@@ -168,17 +170,19 @@ export const ReserveForm = () => {
                             </div>
 
                             {/* Specialty Row */}
-                            <div className={clsx("p-4 rounded-2xl border-2 transition-all flex items-center gap-4", cart.Specialty > 0 ? "border-matcha bg-matcha/5" : "border-gray-100")}>
-                                <img src="/matcha-shokupan.png" alt="Specialty Loaf" className="w-24 h-24 object-cover rounded-xl" />
-                                <div className="flex-1">
-                                    <span className="block font-serif text-xl mb-1 text-matcha">Weekly Specialty</span>
-                                    <span className="block text-sm text-gray-500 mb-2">${PRICES.Specialty}.00 / loaf</span>
-                                    <p className="text-xs text-gray-400 max-w-[200px]">
-                                        Flavor rotates weekly. <br />
-                                        <span className="font-bold text-matcha/80">Current: Kyoto Matcha Swirl</span>
-                                    </p>
+                            <div className={clsx("p-4 rounded-2xl border-2 transition-all flex flex-col sm:flex-row sm:items-center gap-4", cart.Specialty > 0 ? "border-matcha bg-matcha/5" : "border-gray-100")}>
+                                <div className="flex items-center gap-4 w-full sm:w-auto flex-1">
+                                    <img src="/matcha-shokupan.png" alt="Specialty Loaf" className="w-24 h-24 object-cover rounded-xl" />
+                                    <div className="flex-1">
+                                        <span className="block font-serif text-xl mb-1 text-matcha">Weekly Specialty</span>
+                                        <span className="block text-sm text-gray-500 mb-2">${PRICES.Specialty}.00 / loaf</span>
+                                        <p className="text-xs text-gray-400 max-w-[200px]">
+                                            Flavor rotates weekly. <br />
+                                            <span className="font-bold text-matcha/80">Current: Kyoto Matcha Swirl</span>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
                                     <button onClick={() => updateCart("Specialty", -1)} className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:bg-gray-50 disabled:opacity-50" disabled={cart.Specialty === 0}>
                                         <Minus size={16} />
                                     </button>
