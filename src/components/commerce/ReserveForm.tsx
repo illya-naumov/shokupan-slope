@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { clsx } from "clsx";
 import { ShoppingBag, Truck, ChevronRight, ChevronDown, Minus, Plus, User, Mail, Phone, MessageSquare } from "lucide-react";
 
@@ -29,6 +29,10 @@ export const ReserveForm = () => {
     const [fulfillment, setFulfillment] = useState<Fulfillment>("pickup");
     const [selectedDate, setSelectedDate] = useState<string>("");
 
+    // Dates State (Hydration Mismatch Fix)
+    // We initialize with empty array to ensure server and client match initially
+    const [availableDates, setAvailableDates] = useState<{ id: string; label: string; time: string }[]>([]);
+
     // Contact State
     const [contact, setContact] = useState({
         name: "",
@@ -50,37 +54,42 @@ export const ReserveForm = () => {
     const deliveryFee = fulfillment === "delivery" ? (isFreeDelivery ? 0 : 6) : 0;
     const total = subtotal + deliveryFee;
 
-    const getDates = (type: Fulfillment) => {
-        const dates = [];
-        const today = new Date();
-        const fourWeeksFromNow = new Date();
-        fourWeeksFromNow.setDate(today.getDate() + 28);
+    // Move Date Generation to useEffect to prevent Hydration Mismatch
+    useEffect(() => {
+        const getDates = (type: Fulfillment) => {
+            const dates = [];
+            const today = new Date();
+            const fourWeeksFromNow = new Date();
+            fourWeeksFromNow.setDate(today.getDate() + 28);
 
-        // Pickup: Tuesday (2) and Sunday (0)
-        // Delivery: Saturday (6)
-        const targetDays = type === "pickup" ? [2, 0] : [6];
+            // Pickup: Tuesday (2) and Sunday (0)
+            // Delivery: Saturday (6)
+            const targetDays = type === "pickup" ? [2, 0] : [6];
 
-        for (let d = new Date(today); d <= fourWeeksFromNow; d.setDate(d.getDate() + 1)) {
-            if (targetDays.includes(d.getDay())) {
-                const dayName = d.toLocaleDateString('en-US', { weekday: 'long' });
-                const monthDay = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            for (let d = new Date(today); d <= fourWeeksFromNow; d.setDate(d.getDate() + 1)) {
+                if (targetDays.includes(d.getDay())) {
+                    const dayName = d.toLocaleDateString('en-US', { weekday: 'long' });
+                    const monthDay = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-                // Format: "Tuesday, Feb 13"
-                const label = `${dayName}, ${monthDay}`;
-                const id = d.toISOString().split('T')[0]; // YYYY-MM-DD
+                    // Format: "Tuesday, Feb 13"
+                    const label = `${dayName}, ${monthDay}`;
+                    const id = d.toISOString().split('T')[0]; // YYYY-MM-DD
 
-                let time = "";
-                if (type === "pickup") {
-                    time = d.getDay() === 2 ? "9am - 2pm" : (d.getDay() === 0 ? "9am - 2pm" : "");
-                } else {
-                    time = "Delivery Window: 10am - 4pm";
+                    let time = "";
+                    if (type === "pickup") {
+                        time = d.getDay() === 2 ? "9am - 2pm" : (d.getDay() === 0 ? "9am - 2pm" : "");
+                    } else {
+                        time = "Delivery Window: 10am - 4pm";
+                    }
+
+                    dates.push({ id, label, time });
                 }
-
-                dates.push({ id, label, time });
             }
-        }
-        return dates;
-    };
+            return dates;
+        };
+
+        setAvailableDates(getDates(fulfillment));
+    }, [fulfillment]); // Re-run when fulfillment type changes
 
     const handleSubmit = async () => {
         setIsSubmitting(true);
@@ -264,9 +273,12 @@ export const ReserveForm = () => {
                                     value={selectedDate}
                                     onChange={(e) => setSelectedDate(e.target.value)}
                                     className="w-full p-4 pr-12 rounded-xl border border-gray-200 focus:border-matcha focus:ring-1 focus:ring-matcha outline-none appearance-none bg-white font-bold text-gray-700 transition-shadow"
+                                    disabled={availableDates.length === 0}
                                 >
-                                    <option value="" disabled>Select a {fulfillment === "pickup" ? "Pickup" : "Delivery"} Date</option>
-                                    {getDates(fulfillment).map((date) => (
+                                    <option value="" disabled>
+                                        {availableDates.length === 0 ? "Loading dates..." : `Select a ${fulfillment === "pickup" ? "Pickup" : "Delivery"} Date`}
+                                    </option>
+                                    {availableDates.map((date) => (
                                         <option key={date.id} value={date.id}>
                                             {date.label} {date.time ? `- ${date.time}` : ""}
                                         </option>
